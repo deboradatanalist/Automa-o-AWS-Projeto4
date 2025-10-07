@@ -1,0 +1,39 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "Template para criar um bucket S3 com nome unico e protecao de exclusao.",
+
+  "Parameters": {
+    "BucketNamePrefix": {
+      "Type": "String",
+      "Default": "Automacao-Debora",
+      "Description": "Prefixo para o nome do bucket. Sera concatenado com um ID unico."
+    }
+  },
+
+  "Resources": {
+    "MyS3Bucket": {
+      "Type": "AWS::S3::Bucket",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "BucketName": {
+          "Fn::Sub": "${BucketNamePrefix}-${AWS::AccountId}"
+        },
+        "Tags": [
+          {
+            "Key": "Projeto3",
+            "Value": "BootcampSantander"
+          }
+        ]
+      }
+    }
+  },
+
+  "Outputs": {
+    "BucketName": {
+      "Description": "Automação Criar S3.",
+      "Value": {
+        "Ref": "MyS3Bucket"
+      }
+    }
+  }
+}
